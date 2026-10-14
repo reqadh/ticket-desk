@@ -10,3 +10,9 @@ spring:
   h2:
     console:
       enabled: true
+
+notification:
+  sounds:
+    URGENT: /sounds/urgent.wav
+    NORMAL: /sounds/normal.wav
+    LOW: /sounds/low.wav

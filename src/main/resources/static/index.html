@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ticket Desk</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 640px; margin: 2rem auto; padding: 0 1rem; }
+        button { padding: .5rem 1rem; margin-right: .5rem; }
+        li { margin: .25rem 0; }
+        .URGENT { color: #c62828; font-weight: bold; }
+        .LOW { color: #666; }
+    </style>
+</head>
+<body>
+<h1>Ticket Desk</h1>
+<p>Click <b>Enable sound</b> once (browsers block autoplay until you interact), then create tickets.</p>
+<button id="enable">Enable sound</button>
+<span id="state">Sound off</span>
+<p>
+    Create test ticket:
+    <button data-priority="URGENT">Urgent</button>
+    <button data-priority="NORMAL">Normal</button>
+    <button data-priority="LOW">Low</button>
+</p>
+<h2>Incoming tickets</h2>
+<ul id="log"></ul>
+
+<script>
+    const queue = [];
+    let playing = false;
+    let soundEnabled = false;
+
+    // Play one sound at a time so tickets arriving together never overlap.
+    function playNext() {
+        if (playing || !soundEnabled || queue.length === 0) return;
+        playing = true;
+        const audio = new Audio(queue.shift());
+        const done = () => { playing = false; playNext(); };
+        audio.addEventListener('ended', done);
+        audio.addEventListener('error', done);
+        audio.play().catch(done);
+    }
+
+    document.getElementById('enable').addEventListener('click', () => {
+        soundEnabled = true;
+        document.getElementById('state').textContent = 'Sound on';
+        playNext();
+    });
+
+    document.querySelectorAll('button[data-priority]').forEach(btn => btn.addEventListener('click', () => {
+        fetch('/api/tickets', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title: 'Test ' + btn.dataset.priority.toLowerCase() + ' ticket', priority: btn.dataset.priority })
+        });
+    }));
+
+    const events = new EventSource('/api/notifications/stream');
+    events.addEventListener('ticket-created', e => {
+        const t = JSON.parse(e.data);
+        const li = document.createElement('li');
+        li.className = t.priority;
+        li.textContent = `#${t.ticketId} [${t.priority}] ${t.title}`;
+        document.getElementById('log').prepend(li);
+        queue.push(t.sound);
+        playNext();
+    });
+</script>
+</body>
+</html>
