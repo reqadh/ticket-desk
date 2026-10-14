@@ -20,6 +20,10 @@ public class Ticket {
     @Enumerated(EnumType.STRING)
     private TicketStatus status = TicketStatus.OPEN;
 
+    /** Status the ticket had right before it was closed; used when reopening. */
+    @Enumerated(EnumType.STRING)
+    private TicketStatus previousStatus;
+
     @Enumerated(EnumType.STRING)
     private Priority priority = Priority.NORMAL;
 
@@ -34,12 +38,21 @@ public class Ticket {
     }
 
     public void changeStatus(TicketStatus newStatus) {
+        if (newStatus == TicketStatus.CLOSED && status != TicketStatus.CLOSED) {
+            previousStatus = status;
+        }
         status = newStatus;
+    }
+
+    public void reopen() {
+        status = previousStatus == null ? TicketStatus.OPEN : previousStatus;
+        previousStatus = null;
     }
 
     public Long getId() { return id; }
     public String getTitle() { return title; }
     public TicketStatus getStatus() { return status; }
+    public TicketStatus getPreviousStatus() { return previousStatus; }
     public Priority getPriority() { return priority; }
     public Instant getCreatedAt() { return createdAt; }
 }
