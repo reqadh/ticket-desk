@@ -27,6 +27,11 @@ public class Ticket {
     @Enumerated(EnumType.STRING)
     private Priority priority = Priority.NORMAL;
 
+    private String district;
+    private String buildingNumber;
+    private String shortCode;
+    private String city;
+
     private Instant createdAt = Instant.now();
 
     protected Ticket() {
@@ -49,10 +54,21 @@ public class Ticket {
         previousStatus = null;
     }
 
+    public void setAddress(String district, String buildingNumber, String shortCode, String city) {
+        this.district = district;
+        this.buildingNumber = buildingNumber;
+        this.shortCode = shortCode;
+        this.city = city;
+    }
+
     public Long getId() { return id; }
     public String getTitle() { return title; }
     public TicketStatus getStatus() { return status; }
     public TicketStatus getPreviousStatus() { return previousStatus; }
     public Priority getPriority() { return priority; }
+    public String getDistrict() { return district; }
+    public String getBuildingNumber() { return buildingNumber; }
+    public String getShortCode() { return shortCode; }
+    public String getCity() { return city; }
     public Instant getCreatedAt() { return createdAt; }
 }
