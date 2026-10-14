@@ -16,3 +16,7 @@ notification:
     URGENT: /sounds/urgent.wav
     NORMAL: /sounds/normal.wav
     LOW: /sounds/low.wav
+
+server:
+  error:
+    include-message: always
