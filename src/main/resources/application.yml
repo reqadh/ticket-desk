@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: ticket-desk-sample
+  datasource:
+    url: jdbc:h2:mem:ticketdesk;DB_CLOSE_DELAY=-1
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    open-in-view: false
+  h2:
+    console:
+      enabled: true
