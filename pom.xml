@@ -12,10 +12,10 @@
     </parent>
 
     <groupId>com.example</groupId>
-    <artifactId>ticket-desk-sample</artifactId>
+    <artifactId>ticket-desk</artifactId>
     <version>0.1.0</version>
-    <name>ticket-desk-sample</name>
-    <description>Sample service-ticket desk: notes, reopen, address search, priority sounds</description>
+    <name>ticket-desk</name>
+    <description>Service-ticket desk: notes, reopen, address search, priority sounds</description>
 
     <properties>
         <java.version>17</java.version>

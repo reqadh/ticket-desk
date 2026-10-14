@@ -1,6 +1,6 @@
-# ticket-desk-sample
+# ticket-desk
 
-A small sample service-ticket desk built with **Java 17, Spring Boot 3, Spring Data JPA and H2**
+A small service-ticket desk built with **Java 17, Spring Boot 3, Spring Data JPA and H2**
 (in-memory database, no setup needed). All data in this project is fake.
 
 ## Features
@@ -16,7 +16,7 @@ Issue descriptions with acceptance criteria are in [`docs/issues`](docs/issues).
 Supporting endpoints: `POST /api/tickets`, `GET /api/tickets/{id}`, `PUT /api/tickets/{id}/status`,
 `GET /api/tickets/{id}/activity`.
 
-There is no login in this sample; pass the acting user's name in the `X-User` header
+There is no login in this project; pass the acting user's name in the `X-User` header
 (defaults to `agent`).
 
 ## Run

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: ticket-desk-sample
+    name: ticket-desk
   datasource:
     url: jdbc:h2:mem:ticketdesk;DB_CLOSE_DELAY=-1
   jpa:
